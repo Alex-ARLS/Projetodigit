@@ -10,9 +10,9 @@ const db = mysql.createConnection({
 });
 //connect
 db.connect (err => {
-    if (err) throw err;
-    console.timeLog("MySql connected");
-})
+    if(err) throw err;
+    console.timeLog("MySql connected...");
+});
 
 //init app
 const app = express();
@@ -23,9 +23,17 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.get("/", (req, res) =>{
+app.get("/", (req, res) => {
     res.render("index");
 });
+
+app.get("/setup", (req, res) =>{
+let sql = 'CREATE DATABASE TypingtestDB';
+db.query(sql, (err, result)=>{
+    if (err) throw err;
+    res.send("sucess");
+    })
+})
 
 app.listen(3000, () => {
     console.log("server has started on port 3000");
